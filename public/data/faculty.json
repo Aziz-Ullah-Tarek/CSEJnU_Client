@@ -1,0 +1,48 @@
+{
+  "faculty": [
+    {
+      "id": 1,
+      "name": "Dr. Mohammed Rahman",
+      "designation": "Professor & Head of Department",
+      "specialization": "Artificial Intelligence, Machine Learning",
+      "email": "m.rahman@jnu.ac.bd",
+      "phone": "+880-XXX-XXXXXX",
+      "image": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop",
+      "education": ["PhD in Computer Science - MIT", "MSc in CS - Stanford University"],
+      "researchInterests": ["Deep Learning", "Computer Vision", "Natural Language Processing"]
+    },
+    {
+      "id": 2,
+      "name": "Dr. Fatema Khatun",
+      "designation": "Professor",
+      "specialization": "Data Science, Big Data Analytics",
+      "email": "f.khatun@jnu.ac.bd",
+      "phone": "+880-XXX-XXXXXX",
+      "image": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop",
+      "education": ["PhD in Data Science - Oxford University", "MSc in Statistics - Cambridge"],
+      "researchInterests": ["Big Data", "Data Mining", "Predictive Analytics"]
+    },
+    {
+      "id": 3,
+      "name": "Dr. Kamal Hossain",
+      "designation": "Associate Professor",
+      "specialization": "Cybersecurity, Network Security",
+      "email": "k.hossain@jnu.ac.bd",
+      "phone": "+880-XXX-XXXXXX",
+      "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
+      "education": ["PhD in Cybersecurity - ETH Zurich", "MSc in Network Engineering"],
+      "researchInterests": ["Cryptography", "Network Security", "Blockchain"]
+    },
+    {
+      "id": 4,
+      "name": "Ms. Nazia Ahmed",
+      "designation": "Assistant Professor",
+      "specialization": "Software Engineering, Web Development",
+      "email": "n.ahmed@jnu.ac.bd",
+      "phone": "+880-XXX-XXXXXX",
+      "image": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop",
+      "education": ["MSc in Software Engineering - UC Berkeley", "BSc in CSE - BUET"],
+      "researchInterests": ["Agile Development", "Cloud Computing", "DevOps"]
+    }
+  ]
+}
