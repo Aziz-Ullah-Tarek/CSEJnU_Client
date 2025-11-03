@@ -2,37 +2,37 @@
   "images": [
     {
       "id": 1,
-      "url": "https://images.unsplash.com/photo-1562774053-701939374585?w=800&h=600&fit=crop",
+      "url": "https://i.ibb.co.com/rf5VjHN9/110.jpg",
       "alt": "University Campus",
       "title": "Jagannath University Campus"
     },
     {
       "id": 2,
-      "url": "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&h=600&fit=crop",
+      "url": "https://i.ibb.co.com/fYPzFhcC/167.jpg",
       "alt": "Computer Lab",
       "title": "Modern Computer Lab"
     },
     {
       "id": 3,
-      "url": "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=800&h=600&fit=crop",
+      "url": "https://i.ibb.co.com/6Jsjs9fC/hqdefault.jpg",
       "alt": "Library",
       "title": "University Library"
     },
     {
       "id": 4,
-      "url": "https://images.unsplash.com/photo-1529390079861-591de354faf5?w=800&h=600&fit=crop",
+      "url": "https://i.ibb.co.com/MydX4MvG/1584474638742.jpg",
       "alt": "Classroom",
       "title": "Smart Classroom"
     },
     {
       "id": 5,
-      "url": "https://images.unsplash.com/photo-1577896851231-70ef18881754?w=800&h=600&fit=crop",
+      "url": "https://i.ibb.co.com/RppW2K0w/92.jpg",
       "alt": "Students",
       "title": "CSE Students"
     },
     {
       "id": 6,
-      "url": "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&h=600&fit=crop",
+      "url": "https://i.ibb.co.com/rf5VjHN9/110.jpg",
       "alt": "Seminar",
       "title": "Department Seminar"
     }
