@@ -115,60 +115,58 @@ const Classroom = () => {
             </div>
 
             {/* Classrooms Grid */}
-            <div className="container mx-auto px-4 py-12">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="container mx-auto px-4 py-12 mt-20">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {classrooms.map((classroom) => (
-                        <div key={classroom.id} className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden">
-                            {/* Image */}
-                            <div className="h-48 overflow-hidden">
+                        <div key={classroom.id} className="bg-white rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 p-6">
+                            {/* Image - Not Full Width */}
+                            <div className="mb-6">
                                 <img 
                                     src={classroom.image} 
                                     alt={classroom.name} 
-                                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                                    className="w-full h-56 object-cover rounded-2xl"
                                 />
                             </div>
                             
-                            {/* Content */}
-                            <div className="p-5">
-                                <h2 className="text-xl font-bold text-gray-800 mb-3">{classroom.name}</h2>
-                                
-                                <div className="space-y-2.5 mb-4">
-                                    <p className="text-sm text-gray-700">
-                                        <span className="font-semibold">👥 Capacity:</span> {classroom.capacity}
-                                    </p>
-                                    
-                                    <p className="text-sm text-gray-700">
-                                        <span className="font-semibold">📍 Location:</span> {classroom.floor}
-                                    </p>
-                                    
-                                    <div>
-                                        <p className="text-sm font-semibold text-gray-700 mb-1">🛠️ Facilities:</p>
-                                        <p className="text-xs text-gray-600 leading-relaxed">{classroom.facilities}</p>
-                                    </div>
-                                    
-                                    <div className="pt-2 border-t border-gray-200">
-                                        <p className="text-sm text-gray-700">
-                                            <span className="font-semibold">📅 Bookings:</span> 
-                                            <span className="ml-1 text-purple-600 font-bold">{classroom.bookings.length}</span>
-                                        </p>
-                                    </div>
+                            {/* Title */}
+                            <h2 className="text-2xl font-bold text-gray-900 mb-1 text-center">{classroom.name}</h2>
+                            <p className="text-purple-600 text-center font-semibold mb-5">{classroom.floor}</p>
+                            
+                            {/* Content - Not Full Width */}
+                            <div className="space-y-3 mb-5">
+                                <div className="flex items-center gap-3">
+                                    <span className="text-gray-700">💻</span>
+                                    <span className="text-sm font-semibold text-gray-700">Computers</span>
+                                    <span className="ml-auto text-sm text-gray-900 font-medium">{classroom.capacity}</span>
                                 </div>
                                 
-                                {/* Buttons */}
-                                <div className="flex gap-2 mt-4">
-                                    <button 
-                                        onClick={() => handleBooking(classroom)}
-                                        className="flex-1 px-4 py-2 bg-purple-600 text-white text-sm font-medium rounded-lg hover:bg-purple-700 transition"
-                                    >
-                                        Book Room
-                                    </button>
-                                    <button 
-                                        onClick={() => handleViewSchedule(classroom)}
-                                        className="flex-1 px-4 py-2 border-2 border-purple-600 text-purple-600 text-sm font-medium rounded-lg hover:bg-purple-50 transition"
-                                    >
-                                        View All
-                                    </button>
+                                <div className="flex items-center gap-3">
+                                    <span className="text-gray-700">�</span>
+                                    <span className="text-sm font-semibold text-gray-700">Software</span>
                                 </div>
+                                <p className="text-sm text-gray-600 pl-8">{classroom.facilities}</p>
+                                
+                                <div className="flex items-center gap-3 bg-purple-50 px-3 py-2 rounded-lg">
+                                    <span className="text-gray-700">📅</span>
+                                    <span className="text-sm font-semibold text-gray-700">Total Bookings</span>
+                                    <span className="ml-auto text-xl text-purple-600 font-bold">{classroom.bookings.length}</span>
+                                </div>
+                            </div>
+                            
+                            {/* Buttons - Horizontal Layout, Not Full Width */}
+                            <div className="flex gap-3">
+                                <button 
+                                    onClick={() => handleBooking(classroom)}
+                                    className="flex-1 py-3 bg-purple-600 text-white text-sm font-bold rounded-xl hover:bg-purple-700 transition-all duration-300"
+                                >
+                                    Book Now
+                                </button>
+                                <button 
+                                    onClick={() => handleViewSchedule(classroom)}
+                                    className="px-4 py-3 border-2 border-purple-200 text-purple-600 text-sm font-semibold rounded-xl hover:bg-purple-50 transition-all duration-300"
+                                >
+                                    View All Bookings
+                                </button>
                             </div>
                         </div>
                     ))}
@@ -233,6 +231,16 @@ const Classroom = () => {
                                     value={bookingData.purpose}
                                     onChange={(e) => setBookingData({...bookingData, purpose: e.target.value})}
                                     placeholder="Describe the purpose of booking..."
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-semibold mb-2">Teacher Recommendation (Optional)</label>
+                                <input 
+                                    type="text" 
+                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600"
+                                    value={bookingData.teacherRecommendation || ''}
+                                    onChange={(e) => setBookingData({...bookingData, teacherRecommendation: e.target.value})}
+                                    placeholder="Enter teacher's name (if recommended)"
                                 />
                             </div>
                             <div className="flex gap-3 mt-6">

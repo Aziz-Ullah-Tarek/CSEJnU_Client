@@ -1,256 +1,166 @@
-import React, { useState } from 'react';
-import { FaUser, FaLock, FaEnvelope, FaGoogle, FaGraduationCap } from 'react-icons/fa';
-import { MdPhone } from 'react-icons/md';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React, { useContext, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../contexts/AuthContext';
+import { toast } from 'react-toastify';
+import { FaGoogle, FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const StudentLogin = () => {
-    const [isLogin, setIsLogin] = useState(true);
-    const [formData, setFormData] = useState({
-        studentId: '',
-        password: '',
-        name: '',
-        email: '',
-        phone: '',
-        confirmPassword: ''
-    });
+    const { signIn, signInWithGoogle } = useContext(AuthContext);
+    const [showPassword, setShowPassword] = useState(false);
+    const [email, setEmail] = useState('');
+    const navigate = useNavigate();
+    const location = useLocation();
+    
+    const from = location.state?.from?.pathname || '/';
 
-    const handleSubmit = (e) => {
+    const handleLogin = (e) => {
         e.preventDefault();
-        
-        if (isLogin) {
-            // Login validation
-            if (!formData.studentId || !formData.password) {
-                toast.error('Please fill in all fields!');
-                return;
-            }
-            console.log('Login attempt:', { studentId: formData.studentId, password: formData.password });
-            toast.success('Login successful! (Backend integration pending)');
-            // TODO: Connect to backend API
-        } else {
-            // Register validation
-            if (!formData.name || !formData.email || !formData.studentId || !formData.phone || !formData.password || !formData.confirmPassword) {
-                toast.error('Please fill in all fields!');
-                return;
-            }
-            if (formData.password !== formData.confirmPassword) {
-                toast.error('Passwords do not match!');
-                return;
-            }
-            if (formData.password.length < 6) {
-                toast.error('Password must be at least 6 characters!');
-                return;
-            }
-            console.log('Register attempt:', formData);
-            toast.success('Registration successful! (Backend integration pending)');
-            // TODO: Connect to backend API
-        }
-    };
+        const form = e.target;
+        const email = form.email.value;
+        const password = form.password.value;
 
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
+        signIn(email, password)
+            .then(() => {
+                toast.success('Logged in successfully!');
+                navigate(from, { replace: true });
+            })
+            .catch(error => {
+                if (error.code === 'auth/wrong-password') {
+                    toast.error('Incorrect password. Please try again.');
+                } else if (error.code === 'auth/user-not-found') {
+                    toast.error('No account found with this email.');
+                } else if (error.code === 'auth/invalid-email') {
+                    toast.error('Invalid email address.');
+                } else if (error.code === 'auth/invalid-credential') {
+                    toast.error('Invalid email or password.');
+                } else {
+                    toast.error('Login failed: ' + error.message);
+                }
+            });
     };
 
     const handleGoogleLogin = () => {
-        toast.info('Google login will be integrated with backend');
-        // TODO: Implement Google OAuth
-    };
-
-    const toggleForm = () => {
-        setIsLogin(!isLogin);
-        setFormData({
-            studentId: '',
-            password: '',
-            name: '',
-            email: '',
-            phone: '',
-            confirmPassword: ''
-        });
+        signInWithGoogle()
+            .then(() => {
+                toast.success('Logged in with Google successfully!');
+                navigate(from, { replace: true });
+            })
+            .catch(error => {
+                toast.error('Google login failed: ' + error.message);
+            });
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-cyan-600 via-pink-400 to-yellow-300 py-12 px-4">
-            <ToastContainer
-                position="top-right"
-                autoClose={3000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="light"
-            />
-            
-            <div className="w-full max-w-md">
-                {/* Card */}
-                <div className="bg-white  rounded-2xl shadow-2xl overflow-hidden">
-                    {/* Header */}
-                    <div className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white p-8 text-center">
-                        <div className="inline-block p-3 bg-white rounded-full mb-4">
-                            <FaGraduationCap className="text-5xl text-purple-600" />
+        <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-green-50 to-green-100 py-12 px-4 sm:px-6 lg:px-8">
+            <div className="max-w-lg w-full">
+                <div className="bg-white rounded-3xl shadow-2xl p-10 sm:p-12">
+                    {/* Title */}
+                    <div className="text-center mb-10">
+                        <div className="flex items-center justify-center mb-4">
+                            <span className="text-5xl">🌿</span>
                         </div>
-                        <h2 className="text-3xl font-bold mb-2">Student Portal</h2>
-                        <p className="text-purple-100">
-                            {isLogin ? 'Welcome back! Please login to continue' : 'Create your account to get started'}
+                        <h2 className="text-4xl font-bold text-green-700 mb-3">
+                            Welcome Back
+                        </h2>
+                        <p className="text-gray-600 text-base">
+                            Login to continue your plant journey
                         </p>
                     </div>
 
-                    {/* Form */}
-                    <div className="p-6 sm:p-8">
-                        <form onSubmit={handleSubmit} className="space-y-5">
-                            {/* Register Fields */}
-                            {!isLogin && (
-                                <>
-                                    <div>
-                                        <label className="block text-sm font-semibold text-gray-700 mb-2">
-                                            Full Name
-                                        </label>
-                                        <div className="relative">
-                                            
-                                            <input
-                                                type="text"
-                                                name="name"
-                                                value={formData.name}
-                                                onChange={handleChange}
-                                                placeholder="Enter your full name"
-                                                className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent transition-all bg-gray-50 focus:bg-white"
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <div>
-                                        <label className="block text-sm font-semibold text-gray-700 mb-2">
-                                            Email
-                                        </label>
-                                        <div className="relative">
-                                            
-                                            <input
-                                                type="email"
-                                                name="email"
-                                                value={formData.email}
-                                                onChange={handleChange}
-                                                placeholder="Enter your email"
-                                                className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent transition-all bg-gray-50 focus:bg-white"
-                                            />
-                                        </div>
-                                    </div>
-
-                                </>
-                            )}
-
-                            {/* Common Fields */}
-                            <div>
-                                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                                    Student ID
-                                </label>
-                                <div className="relative">
-                                    
-                                    <input
-                                        type="text"
-                                        name="studentId"
-                                        value={formData.studentId}
-                                        onChange={handleChange}
-                                        placeholder="Enter your student ID"
-                                        className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent transition-all bg-gray-50 focus:bg-white"
-                                    />
-                                </div>
-                            </div>
-
-                            <div>
-                                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                                    Password
-                                </label>
-                                <div className="relative">
-                                    
-                                    <input
-                                        type="password"
-                                        name="password"
-                                        value={formData.password}
-                                        onChange={handleChange}
-                                        placeholder="Enter your password"
-                                        className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent transition-all bg-gray-50 focus:bg-white"
-                                    />
-                                </div>
-                            </div>
-
-                            {!isLogin && (
-                                <div>
-                                    <label className="block text-sm font-semibold text-gray-700 mb-2">
-                                        Confirm Password
-                                    </label>
-                                    <div className="relative">
-                                        
-                                        <input
-                                            type="password"
-                                            name="confirmPassword"
-                                            value={formData.confirmPassword}
-                                            onChange={handleChange}
-                                            placeholder="Confirm your password"
-                                            className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent transition-all bg-gray-50 focus:bg-white"
-                                        />
-                                    </div>
-                                </div>
-                            )}
-
-                            {isLogin && (
-                                <div className="flex justify-end">
-                                    <a href="#" className="text-sm text-purple-600 hover:text-purple-700 font-medium">
-                                        Forgot password?
-                                    </a>
-                                </div>
-                            )}
-
-                            {/* Submit Button */}
-                            <button
-                                type="submit"
-                                className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-indigo-700 transition-all transform hover:scale-[1.02] shadow-lg"
-                            >
-                                {isLogin ? 'Login' : 'Register'}
-                            </button>
-                        </form>
-
-                        {/* Divider */}
-                        <div className="relative my-6">
-                            <div className="absolute inset-0 flex items-center">
-                                <div className="w-full border-t border-gray-300"></div>
-                            </div>
-                            <div className="relative flex justify-center text-sm">
-                                <span className="px-4 bg-white text-gray-500 font-medium">OR</span>
-                            </div>
+                    {/* Login Form */}
+                    <form onSubmit={handleLogin} className="space-y-6">
+                        {/* Email Field */}
+                        <div>
+                            <label className="block text-sm font-semibold text-gray-800 mb-2.5">
+                                Email
+                            </label>
+                            <input 
+                                type="email" 
+                                name="email"
+                                placeholder="Enter your email"
+                                className="w-full px-5 py-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-200 transition duration-200 text-gray-800"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required 
+                            />
                         </div>
 
-                        {/* Google Login */}
-                        <button
-                            type="button"
-                            onClick={handleGoogleLogin}
-                            className="w-full flex items-center justify-center gap-3 bg-yellow-300 border-2 border-gray-300 text-gray-700 py-3 rounded-lg font-semibold hover:bg-gray-50 hover:border-gray-400 transition-all transform hover:scale-[1.02]"
-                        >
-                            <FaGoogle className="text-xl text-pink-500" />
-                            Continue with Google
-                        </button>
-
-                        {/* Toggle Login/Register */}
-                        <div className="text-center mt-6">
-                            <p className="text-gray-600">
-                                {isLogin ? "Don't have an account? " : "Already have an account? "}
+                        {/* Password Field */}
+                        <div>
+                            <label className="block text-sm font-semibold text-gray-800 mb-2.5">
+                                Password
+                            </label>
+                            <div className="relative">
+                                <input 
+                                    type={showPassword ? "text" : "password"}
+                                    name="password"
+                                    placeholder="Enter your password"
+                                    className="w-full px-5 py-4 pr-14 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-200 transition duration-200 text-gray-800"
+                                    required 
+                                />
                                 <button
                                     type="button"
-                                    onClick={toggleForm}
-                                    className="text-purple-600 font-semibold hover:text-purple-700 underline"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-green-600 transition"
                                 >
-                                    {isLogin ? 'Register Now' : 'Login'}
+                                    {showPassword ? <FaEyeSlash size={22} /> : <FaEye size={22} />}
                                 </button>
-                            </p>
+                            </div>
+                        </div>
+
+                        {/* Forgot Password Link */}
+                        <div className="text-left">
+                            <Link 
+                                to="/forgot-password"
+                                className="text-sm text-green-600 font-semibold hover:text-green-700 hover:underline"
+                            >
+                                Forgot password?
+                            </Link>
+                        </div>
+
+                        {/* Login Button */}
+                        <div className="mt-8">
+                            <button 
+                                type="submit"
+                                className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-4 px-6 rounded-xl transition duration-300 shadow-lg hover:shadow-xl text-base"
+                            >
+                                Login
+                            </button>
+                        </div>
+                    </form>
+
+                    {/* Divider */}
+                    <div className="relative my-8">
+                        <div className="absolute inset-0 flex items-center">
+                            <div className="w-full border-t-2 border-gray-200"></div>
+                        </div>
+                        <div className="relative flex justify-center text-sm">
+                            <span className="px-4 bg-white text-gray-500 font-medium">OR</span>
                         </div>
                     </div>
-                </div>
 
-                
+                    {/* Google Login Button */}
+                    <button 
+                        onClick={handleGoogleLogin}
+                        className="w-full flex items-center justify-center gap-3 border-2 border-green-600 text-green-600 hover:bg-green-600 hover:text-white font-semibold py-4 px-6 rounded-xl transition duration-300"
+                    >
+                        <FaGoogle size={20} />
+                        Continue with Google
+                    </button>
+
+                    {/* Signup Link */}
+                    <div className="text-center mt-8">
+                        <p className="text-gray-600">
+                            Don't have an account?{' '}
+                            <Link 
+                                to="/register" 
+                                className="text-green-600 font-bold hover:text-green-700 hover:underline"
+                            >
+                                Sign Up
+                            </Link>
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     );

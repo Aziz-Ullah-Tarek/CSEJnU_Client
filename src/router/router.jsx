@@ -9,6 +9,7 @@ import Events from '../pages/Events';
 import Gallery from '../pages/Gallery';
 import Contact from '../pages/Contact';
 import StudentLogin from '../pages/StudentLogin';
+import Register from '../pages/Register';
 import Admin from '../pages/Admin';
 
 const routes = [
@@ -28,6 +29,9 @@ const routes = [
     },
     // Routes without Layout (no navbar/footer)
     { path: '/student-login', component: StudentLogin },
+    { path: '/StudentLogin', component: StudentLogin },
+    { path: '/register', component: Register },
+    { path: '/Register', component: Register },
     { path: '/admin', component: Admin },
 ];
 
